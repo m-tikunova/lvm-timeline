@@ -1,497 +1,716 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Peregrine Falcon Development Timeline - 2025</title>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        :root {
-            --background: #f8fafc;
-            --foreground: #1f2937;
-            --card: #ffffff;
-            --card-foreground: #1f2937;
-            --primary: #374151;
-            --primary-foreground: #ffffff;
-            --secondary: #6366f1;
-            --secondary-foreground: #ffffff;
-            --muted: #6b7280;
-            --accent: #6366f1;
-            --accent-foreground: #ffffff;
-            --border: #e5e7eb;
-            --radius: 0.5rem;
-            --timeline-line: #d1d5db;
-            --milestone: #10b981;
-            --milestone-bg: #ecfdf5;
-        }
+      :root {
+        --background: #f8fafc;
+        --foreground: #1f2937;
+        --card: #ffffff;
+        --card-foreground: #1f2937;
+        --primary: #374151;
+        --primary-foreground: #ffffff;
+        --secondary: #6366f1;
+        --secondary-foreground: #ffffff;
+        --muted: #6b7280;
+        --accent: #6366f1;
+        --accent-foreground: #ffffff;
+        --border: #e5e7eb;
+        --radius: 0.5rem;
+        --timeline-line: #d1d5db;
+        --milestone: #10b981;
+        --milestone-bg: #ecfdf5;
+      }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background-color: var(--background);
-            color: var(--foreground);
-            line-height: 1.6;
-        }
+      body {
+        font-family: "DM Sans", sans-serif;
+        background-color: var(--background);
+        color: var(--foreground);
+        line-height: 1.6;
+      }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 2rem 1rem;
-        }
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+      }
 
-        .header {
-            text-align: center;
-            margin-bottom: 3rem;
-            padding: 2rem;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: var(--primary-foreground);
-            border-radius: var(--radius);
-        }
+      .header {
+        text-align: center;
+        margin-bottom: 3rem;
+        padding: 2rem;
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
+        color: var(--primary-foreground);
+        border-radius: var(--radius);
+      }
 
-        .header h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
+      .header h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
 
-        .header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
+      .header p {
+        font-size: 1.1rem;
+        opacity: 0.9;
+      }
 
-        .timeline {
-            position: relative;
-            padding: 2rem 0;
-        }
+      .timeline {
+        position: relative;
+        padding: 2rem 0;
+      }
 
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: var(--timeline-line);
+        transform: translateX(-50%);
+      }
+
+      .timeline-item {
+        position: relative;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: flex-start;
+      }
+
+      .timeline-item:nth-child(odd) {
+        flex-direction: row;
+      }
+
+      .timeline-item:nth-child(even) {
+        flex-direction: row-reverse;
+      }
+
+      .timeline-content {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1.5rem;
+        margin: 0 2rem;
+        width: calc(50% - 2rem);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .timeline-content:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+      }
+
+      .timeline-marker {
+        position: absolute;
+        left: 50%;
+        top: 1.5rem;
+        width: 16px;
+        height: 16px;
+        background: var(--secondary);
+        border: 3px solid var(--background);
+        border-radius: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
+      }
+
+      .milestone .timeline-marker {
+        background: var(--milestone);
+        width: 20px;
+        height: 20px;
+        top: 1.25rem;
+      }
+
+      .milestone .timeline-content {
+        border-color: var(--milestone);
+        background: var(--milestone-bg);
+      }
+
+      .date {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--secondary);
+        margin-bottom: 0.5rem;
+      }
+
+      .event-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--foreground);
+        margin-bottom: 0.75rem;
+      }
+
+      .milestone .event-title {
+        color: var(--milestone);
+      }
+
+      .event-summary {
+        color: var(--muted);
+        font-size: 0.95rem;
+        line-height: 1.5;
+      }
+
+      .detailed-summary {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border);
+        font-size: 0.9rem;
+        color: var(--card-foreground);
+      }
+
+      .falcon-tag {
+        display: inline-block;
+        background: var(--accent);
+        color: var(--accent-foreground);
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+        margin-right: 0.5rem;
+        margin-bottom: 0.25rem;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 3rem;
+      }
+
+      .stat-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1.5rem;
+        text-align: center;
+      }
+
+      .stat-number {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--secondary);
+        display: block;
+      }
+
+      .stat-label {
+        color: var(--muted);
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
+      }
+
+      @media (max-width: 768px) {
         .timeline::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: var(--timeline-line);
-            transform: translateX(-50%);
+          left: 2rem;
         }
 
         .timeline-item {
-            position: relative;
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: flex-start;
-        }
-
-        .timeline-item:nth-child(odd) {
-            flex-direction: row;
-        }
-
-        .timeline-item:nth-child(even) {
-            flex-direction: row-reverse;
+          flex-direction: row !important;
         }
 
         .timeline-content {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            margin: 0 2rem;
-            width: calc(50% - 2rem);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .timeline-content:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+          width: calc(100% - 4rem);
+          margin-left: 4rem;
+          margin-right: 1rem;
         }
 
         .timeline-marker {
-            position: absolute;
-            left: 50%;
-            top: 1.5rem;
-            width: 16px;
-            height: 16px;
-            background: var(--secondary);
-            border: 3px solid var(--background);
-            border-radius: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
+          left: 2rem;
         }
 
         .milestone .timeline-marker {
-            background: var(--milestone);
-            width: 20px;
-            height: 20px;
-            top: 1.25rem;
+          left: 2rem;
         }
 
-        .milestone .timeline-content {
-            border-color: var(--milestone);
-            background: var(--milestone-bg);
+        .header h1 {
+          font-size: 2rem;
         }
-
-        .date {
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: var(--secondary);
-            margin-bottom: 0.5rem;
-        }
-
-        .event-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--foreground);
-            margin-bottom: 0.75rem;
-        }
-
-        .milestone .event-title {
-            color: var(--milestone);
-        }
-
-        .event-summary {
-            color: var(--muted);
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-
-        .detailed-summary {
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border);
-            font-size: 0.9rem;
-            color: var(--card-foreground);
-        }
-
-        .falcon-tag {
-            display: inline-block;
-            background: var(--accent);
-            color: var(--accent-foreground);
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.25rem;
-            font-size: 0.75rem;
-            font-weight: 500;
-            margin-right: 0.5rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 3rem;
-        }
-
-        .stat-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--secondary);
-            display: block;
-        }
-
-        .stat-label {
-            color: var(--muted);
-            font-size: 0.875rem;
-            margin-top: 0.5rem;
-        }
-
-        @media (max-width: 768px) {
-            .timeline::before {
-                left: 2rem;
-            }
-
-            .timeline-item {
-                flex-direction: row !important;
-            }
-
-            .timeline-content {
-                width: calc(100% - 4rem);
-                margin-left: 4rem;
-                margin-right: 1rem;
-            }
-
-            .timeline-marker {
-                left: 2rem;
-            }
-
-            .milestone .timeline-marker {
-                left: 2rem;
-            }
-
-            .header h1 {
-                font-size: 2rem;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <header class="header">
-            <h1>Peregrine Falcon Development Timeline</h1>
-            <p>Tracking the journey of four falcon chicks from fledging to independence • Summer 2025</p>
-        </header>
+      <header class="header">
+        <h1>LVM Timeline</h1>
+        <p>Summer 2025</p>
+      </header>
 
-        <div class="stats">
-            <div class="stat-card">
-                <span class="stat-number">4</span>
-                <div class="stat-label">Falcon Chicks</div>
+      <div class="stats">
+        <div class="stat-card">
+          <span class="stat-number">4</span>
+          <div class="stat-label">Eyases</div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">3</span>
+          <div class="stat-label">Juveniles on Wing</div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">71</span>
+          <div class="stat-label">Days Tracked</div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">10</span>
+          <div class="stat-label">Max Miles Traveled</div>
+        </div>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item milestone">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="date">July 5, 2025</div>
+            <div class="event-title">F1 Fledge</div>
+            <div class="event-summary">
+              <span class="falcon-tag">F1</span>
+              Fledging begins!
             </div>
-            <div class="stat-card">
-                <span class="stat-number">71</span>
-                <div class="stat-label">Days Tracked</div>
-            </div>
-            <div class="stat-card">
-                <span class="stat-number">10</span>
-                <div class="stat-label">Miles Traveled</div>
-            </div>
-            <div class="stat-card">
-                <span class="stat-number">100%</span>
-                <div class="stat-label">Success Rate</div>
-            </div>
+          </div>
         </div>
 
-        <div class="timeline">
-            <div class="timeline-item milestone">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                    <div class="date">July 5, 2025</div>
-                    <div class="event-title">F1 Fledge</div>
-                    <div class="event-summary">
-                        <span class="falcon-tag">F1</span>
-                        First falcon chick takes its maiden flight, marking the beginning of the fledgling period.
-                    </div>
-                </div>
+        <div class="timeline-item milestone">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="date">July 7, 2025</div>
+            <div class="event-title">F2 Fledge</div>
+            <div class="event-summary">
+              <span class="falcon-tag">F2</span>
+              Sam rescue!
             </div>
-
-            <div class="timeline-item milestone">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                    <div class="date">July 7, 2025</div>
-                    <div class="event-title">F2 Fledge</div>
-                    <div class="event-summary">
-                        <span class="falcon-tag">F2</span>
-                        Second chick successfully fledges, joining F1 in learning flight skills.
-                    </div>
-                </div>
-            </div>
-
-            <div class="timeline-item milestone">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                    <div class="date">July 9, 2025</div>
-                    <div class="event-title">F3 Fledge</div>
-                    <div class="event-summary">
-                        <span class="falcon-tag">F3</span>
-                        Third falcon chick takes flight, continuing the successful fledgling sequence.
-                    </div>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                    <div class="date">July 11, 2025</div>
-                    <div class="event-title">Met Philomena while paddleboarding</div>
-                    <div class="event-summary">
-                        First encounter with researcher Philomena during paddleboard observation shift.
-                    </div>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                    <div class="date">July 12, 2025</div>
-                    <div class="event-title">My first kayak shift</div>
-                    <div class="event-summary">
-                        Beginning of systematic kayak-based observation sessions for closer monitoring.
-                    </div>
-                </div>
-            </div>
-
-            <div class="timeline-item milestone">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                    <div class="date">July 13, 2025</div>
-                    <div class="event-title">F1 Release</div>
-                    <div class="event-summary">
-                        <span class="falcon-tag">F1</span>
-                        F1 released into the wild environment, beginning independent survival phase.
-                    </div>
-                    <div class="detailed-summary">
-                        By 10am F1 was on light rail over land. At 4:26pm on arch. At 6:24 flew very low over eastbound I-90. Steve checked the road. Kayak shift 4:30–7:25pm. At 6:20pm, F1 was perched on the light rail wire. When the second parent returned, F1 made several flight attempts toward the eyrie but repeatedly circled back to the light rail. By around 6:50pm, F1 had disappeared from view.
-                    </div>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                    <div class="date">July 14, 2025</div>
-                    <div class="event-title">F1 mid air prey transfer</div>
-                    <div class="event-summary">
-                        <span class="falcon-tag">F1</span>
-                        First successful mid-air prey transfer observed, crucial hunting skill development.
-                    </div>
-                    <div class="detailed-summary">
-                        F1 gets mid air prey transfer around 11:30am. F1 gets another prey delivery and eats on arch around 2pm. F1 is seen on arch and light rail. Paddleboard shift 8-9:30am, kayak shift 11:20am-2:30pm.
-                    </div>
-                </div>
-            </div>
-
-            <div class="timeline-item milestone">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                    <div class="date">July 15, 2025</div>
-                    <div class="event-title">F3 Release</div>
-                    <div class="event-summary">
-                        <span class="falcon-tag">F3</span><span class="falcon-tag">F1</span>
-                        F3 released into neighborhood; F1 observed flying dangerously low over I-90.
-                    </div>
-                    <div class="detailed-summary">
-                        F3 is released into the neighborhood and disappears from view around 8:30am. At 5pm F1 flies too low over eastbound I-90. A parent was following and did a mid-flight stop. Both parents, F1, and F4 were under the bridge for most of the shift. F1 stayed on the I-beam near the second support, preening and begging.
-                    </div>
-                </div>
-            </div>
-
-            <div class="timeline-item milestone">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                    <div class="date">July 16, 2025</div>
-                    <div class="event-title">F4 Fledge</div>
-                    <div class="event-summary">
-                        <span class="falcon-tag">F4</span>
-                        Final chick fledges successfully, completing the family's flight milestone.
-                    </div>
-                    <div class="detailed-summary">
-                        At 6:22am Sam wrote "5 visible PEFA, 3 on wickets 2 getting fed, F4 in eyrie and 1 adult on light pole on I-90." 11:59 - F4 fledges. Philomena "She dropped, got beautiful lift, headed E then turned over bridge. Cannot find her." 12:37 - F4 on truck. 1:16 - F4 in water / Philomena rescue.
-                    </div>
-                </div>
-            </div>
-
-            <div class="timeline-item milestone">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                    <div class="date">July 19, 2025</div>
-                    <div class="event-title">F4 Release</div>
-                    <div class="event-summary">
-                        <span class="falcon-tag">F4</span>
-                        F4 released after recovery, rejoining siblings in the wild.
-                    </div>
-                    <div class="detailed-summary">
-                        6:34am, photo - F4 out of carrier, on road. 6:40 Philomena "She flew N, in trees near bridge". 6:42 Philomena "On roof just S of the trees by bridge". 8:55pm, Arielle "She's back on the roof but she flew in one spot for a while and then went back"
-                    </div>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                    <div class="date">July 22, 2025</div>
-                    <div class="event-title">F4 eats!</div>
-                    <div class="event-summary">
-                        <span class="falcon-tag">F4</span>
-                        F4 successfully obtains and consumes a substantial meal, showing improved hunting skills.
-                    </div>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                    <div class="date">July 26, 2025</div>
-                    <div class="event-title">F4 on a light rail wicket eating</div>
-                    <div class="event-summary">
-                        <span class="falcon-tag">F4</span><span class="falcon-tag">F3</span>
-                        First observation of F4 on bridge infrastructure, eating alongside F3.
-                    </div>
-                    <div class="detailed-summary">
-                        7:47am - Eating on a wicket with F3. 8:00 PM - F4 on light rail wire. At 8:30 PM, she flew to the sentinel tree, followed by F1. Then at 8:59 PM, both F1 and F4 flew from the sentinel tree south along Lakeside Ave S toward Colman Park and out of view.
-                    </div>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                    <div class="date">August 6, 2025</div>
-                    <div class="event-title">First rain</div>
-                    <div class="event-summary">
-                        <span class="falcon-tag">F4</span>
-                        Juveniles experience their first rainfall, with F4 receiving possible mid-air prey transfer.
-                    </div>
-                    <div class="detailed-summary">
-                        First rain for the juveniles. I found F4 early on and followed her for most of the time. She received prey (possibly via a midair transfer) and ate it on a roof near the S. Atlantic dead end, with Mom watching over her. At 9:25am, I left F4, now all wet from the rain, in the madrone tree by Colman Park.
-                    </div>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                    <div class="date">August 16, 2025</div>
-                    <div class="event-title">F1 at SeaTac</div>
-                    <div class="event-summary">
-                        <span class="falcon-tag">F1</span>
-                        F1 retrieved from trap at SeaTac Airport, 10 miles from natal territory - showing remarkable dispersal.
-                    </div>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                    <div class="date">August 18, 2025</div>
-                    <div class="event-title">Colman Park crow incident</div>
-                    <div class="event-summary">
-                        <span class="falcon-tag">F4</span><span class="falcon-tag">F1</span><span class="falcon-tag">F3</span>
-                        Juvenile catches crow near Colman Park beach, demonstrating advanced hunting skills.
-                    </div>
-                    <div class="detailed-summary">
-                        Around 8am one juvenile seems to have caught a crow near Colman Park beach and taken it back under the bridge. All three went under the bridge, and I saw F4 do most of the eating before F1 joined in, while F3 kept watch.
-                    </div>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                    <div class="date">August 26, 2025</div>
-                    <div class="event-title">Last Mom sighting</div>
-                    <div class="event-summary">
-                        Final observation of the mother falcon on cottonwood by bike trail, marking transition to independence.
-                    </div>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-marker"></div>
-                <div class="timeline-content">
-                    <div class="date">August 29, 2025</div>
-                    <div class="event-title">F3 at Cedar River Mouth</div>
-                    <div class="event-summary">
-                        <span class="falcon-tag">F3</span>
-                        F3 observed at Cedar River Mouth, showing territorial expansion and hunting behavior.
-                    </div>
-                    <div class="detailed-summary">
-                        Comments on F3's adventures today read: "made repeated dives and chases on shorebirds, unsuccessful while I watched, landed briefly on logs;" "Young, banded bird seen being attacking just about everything in sight, including an OSPR;" and the amusingly descriptive: "Immature chasing things."
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+
+        <div class="timeline-item milestone">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="date">July 9, 2025</div>
+            <div class="event-title">F3 Fledge</div>
+            <div class="event-summary">
+              <span class="falcon-tag">F3</span>
+              Philomena rescue!
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="date">July 11, 2025</div>
+            <div class="event-title">Met Philomena while paddleboarding</div>
+            <div class="event-summary">Is there a cat in that box?</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="date">July 12, 2025</div>
+            <div class="event-title">My first kayak shift</div>
+            <div class="event-summary">
+              F4 remained alert and active at 7pm, perched upright on a narrow
+              ledge and flapping with increasing intensity—especially around
+              6:20pm. No feeding was observed, and she cried frequently.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item milestone">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="date">July 13, 2025</div>
+            <div class="event-title">F1 Release</div>
+            <div class="event-summary">
+              <span class="falcon-tag">F1</span>
+              F1 released on S Atlantic dead-end and flies along Lakeside to
+              light rail where he is guided by Mom along the bridge.
+            </div>
+            <div class="detailed-summary">
+              By 10am F1 was on light rail over land. At 4:26pm on arch. At 6:24
+              flew very low over eastbound I-90. Steve checked the road. Kayak
+              shift 4:30–7:25pm. At 6:20pm, F1 was perched on the light rail
+              wire. When the second parent returned, F1 made several flight
+              attempts toward the eyrie but repeatedly circled back to the light
+              rail. By around 6:50pm, F1 had disappeared from view.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="date">July 14, 2025</div>
+            <div class="event-title">F1 mid air prey transfer</div>
+            <div class="event-summary">
+              <span class="falcon-tag">F1</span>
+              Successful mid-air prey transfer observed.
+            </div>
+            <div class="detailed-summary">
+              F1 gets mid air prey transfer around 11:30am. F1 gets another prey
+              delivery and eats on arch around 2pm. F1 is seen on arch and light
+              rail. Paddleboard shift 8-9:30am, kayak shift 11:20am-2:30pm.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item milestone">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="date">July 15, 2025</div>
+            <div class="event-title">F3 Release</div>
+            <div class="event-summary">
+              <span class="falcon-tag">F3</span
+              ><span class="falcon-tag">F1</span>
+              F3 released into neighborhood; F1 observed flying dangerously low
+              over I-90.
+            </div>
+            <div class="detailed-summary">
+              F3 is released into the neighborhood and disappears from view
+              around 8:30am. At 5pm F1 flies too low over eastbound I-90. A
+              parent was following and did a mid-flight stop. Kayak shifts
+              5:30-9am, 10am-12pm, 4-7:30pm. 10am–12pm: Both parents, F1, and F4
+              were under the bridge for most of the shift. F1 stayed on the
+              I-beam near the second support, preening and begging. F4 was
+              active near her condo, hopping across her window twice. Mom
+              briefly chased an osprey. Both parents chased crows near shore.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item milestone">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="date">July 16, 2025</div>
+            <div class="event-title">F4 Fledge</div>
+            <div class="event-summary">
+              <span class="falcon-tag">F4</span>
+              F4 fledges successfully but is found in water an hour and 15
+              minutes later. Philomena to the rescue!
+            </div>
+            <div class="detailed-summary">
+              At 6:22am Sam wrote "5 visible PEFA, 3 on wickets 2 getting fed,
+              F4 in eyrie and 1 adult on light pole on I-90." 11:59 - F4
+              fledges. Philomena "She dropped, got beautiful lift, headed E then
+              turned over bridge. Cannot find her." 12:37 - F4 on truck. 1:16 -
+              F4 in water / Philomena rescue.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item milestone">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="date">July 17, 2025</div>
+            <div class="event-title">F3 by bridge</div>
+            <div class="event-summary">
+              <span class="falcon-tag">Mom</span
+              ><span class="falcon-tag">Dad</span
+              ><span class="falcon-tag">F1</span
+              ><span class="falcon-tag">F3</span>
+              All accounted for by Sam.
+            </div>
+            <div class="detailed-summary">
+              Sam, 7:30am "mom, dad and brothers are accounted for. Dad chased
+              an adult BAEA." 7:50-8:50am - photos of brothers and mom on light
+              rail and arch.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item milestone">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="date">July 19, 2025</div>
+            <div class="event-title">F4 Release</div>
+            <div class="event-summary">
+              <span class="falcon-tag">F4</span>
+              F4 released on S Massachusetts and 36th Ave S. Flies to the roof
+              of 1420 35th Ave S.
+            </div>
+            <div class="detailed-summary">
+              6:34am, photo - F4 out of carrier, on road. 6:40 Philomena "She
+              flew N, in trees near bridge". 6:42 Philomena "On roof just S of
+              the trees by bridge". 8:55pm, Arielle "She's back on the roof but
+              she flew in one spot for a while and then went back"
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="date">July 20, 2025</div>
+            <div class="event-title">
+              F4 makes short flights in neighborhood and north of bridge
+            </div>
+            <div class="event-summary">
+              <span class="falcon-tag">F4</span>
+              5:41am – F4 on the roof of 1420 35th Ave S. Flew south to a tree,
+              then to the roof of 1426 Lake Wash Blvd S, and later followed Mom
+              with prey into trees by the highway. Around 3pm, flew north of the
+              bridge and landed on a light post. Attempted to fly toward the
+              arch but turned back before crossing. F1 flew to her and stayed
+              nearby for a while. Around 8pm, she flew south; Indigo spotted her
+              on a chimney on 36th Ave S at 8:52pm. Final roost in a conifer at
+              S Mass and 36th Ave S around 9pm.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="date">July 21, 2025</div>
+            <div class="event-title">F4 with crop at 6am</div>
+            <div class="event-summary">
+              <span class="falcon-tag">F4</span>
+              5:53am F4 on S Mass and 36th Ave S conifer with crop. 8:12am on
+              chimney by Indigo's. At 1:40 F4 flew to the roof she spent her
+              release day on and then flew N of the bridges to the tree she was
+              on yesterday with her brother. 5:42 Philomena ""She made an
+              amazing spot on flight to the correct bridge, we were elated - BUT
+              did not stay, immediately flew South and back around to the
+              utility pole you see near the tree in the above photo."" 6:16
+              Philomena ""She did another flight to the bridge, over it, curved
+              around and flew right over a wicket where a parent was feeding the
+              brothers (!!) came around and landed briefly on the arch of the
+              bridge (!!) and flew back"" 8:28pm - video from Shaneika of F4
+              back on roof of 1420 35th Ave S. 8:43pm - on sentinel tree.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="date">July 22, 2025</div>
+            <div class="event-title">F4 eats a giant pigeon</div>
+            <div class="event-summary">
+              <span class="falcon-tag">F4</span>
+              F4 gets a big meal. Rests. On sentinel tree and tucks herself in
+              for the night in Doug Fir above Laila.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="date">July 23, 2025</div>
+            <div class="event-title">
+              F4 on sentinel tree in the morning. Has a crop in the afternoon.
+            </div>
+            <div class="event-summary">
+              <span class="falcon-tag">F4</span>
+              6:55–9:25am: F4 repeatedly flew toward the bridge but returned
+              each time, spending most of the interval perched on the sentinel
+              tree. Her brothers showed consistent interest, flying to the tree
+              and following her in flight. Mom was seen on a tree by the bike
+              trail with a clear line of sight to F4’s position. 4:36pm - Indigo
+              and Jimmy find F4 on conifer at S Mass and 36 Ave S. F4 has a
+              crop.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="date">July 24, 2025</div>
+            <div class="event-title">F4 on sentinel tree in the morning.</div>
+            <div class="event-summary">
+              <span class="falcon-tag">F4</span>
+              8am - F4 eating a flicker on roof by S Atlantic dead end. 7:55pm -
+              on sentinel tree.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="date">July 25, 2025</div>
+            <div class="event-summary">
+              <span class="falcon-tag">F4</span>
+              F4 on sentinel tree at 6:30am, on roof of 1500 36th Ave S at
+              7:22am and back to sentinel tree around 7:54am. 7:24pm F4 on
+              sentinel tree.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="date">July 26, 2025</div>
+            <div class="event-title">F4 on a light rail wicket eating</div>
+            <div class="event-summary">
+              <span class="falcon-tag">F4</span
+              ><span class="falcon-tag">F3</span>
+              First observation of F4 on bridge, eating alongside F3.
+            </div>
+            <div class="detailed-summary">
+              7:47am - Eating on a wicket with F3. 8:00 PM - F4 on light rail
+              wire. At 8:30 PM, she flew to the sentinel tree, followed by F1.
+              Then at 8:59 PM, both F1 and F4 flew from the sentinel tree south
+              along Lakeside Ave S toward Colman Park and out of view.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="date">July 28, 2025</div>
+            <div class="event-title">F4 under the bridge?</div>
+            <div class="event-summary">
+              <span class="falcon-tag">F4</span>
+              First observation if so.
+            </div>
+            <div class="detailed-summary">
+              6:30am F1 got a prey delivery on the arch and took it under the
+              bridge. F4 and F3 seemed to follow under the bridge. 8:30pm -
+              juvenile on sentinel tree.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="date">July 31, 2025</div>
+            <div class="event-title">F4 has a close call</div>
+            <div class="event-summary">
+              <span class="falcon-tag">F4</span>
+              At about 7:52 AM, F4 inexplicably took a short flight from a light
+              rail wire onto a westbound I-90 lane and landed in the middle of
+              traffic.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="date">August 6, 2025</div>
+            <div class="event-title">First rain</div>
+            <div class="event-summary">
+              <span class="falcon-tag">F4</span>
+              Juveniles experience their first rainfall, with F4 receiving
+              possible mid-air prey transfer.
+            </div>
+            <div class="detailed-summary">
+              First rain for the juveniles. I found F4 early on and followed her
+              for most of the time. She received prey (possibly via a midair
+              transfer) and ate it on a roof near the S. Atlantic dead end, with
+              Mom watching over her. At 9:25am, I left F4, now all wet from the
+              rain, in the madrone tree by Colman Park.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="date">August 16, 2025</div>
+            <div class="event-title">F1 at SeaTac</div>
+            <div class="event-summary">
+              <span class="falcon-tag">F1</span>
+              F1 retrieved from trap at SeaTac Airport, 10 miles from natal
+              territory - showing remarkable dispersal.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="date">August 18, 2025</div>
+            <div class="event-title">Colman Park crow incident</div>
+            <div class="event-summary">
+              <span class="falcon-tag">F4</span
+              ><span class="falcon-tag">F1</span
+              ><span class="falcon-tag">F3</span>
+              One Juvenile catches crow near Colman Park beach.
+            </div>
+            <div class="detailed-summary">
+              Around 8am one juvenile seems to have caught a crow near Colman
+              Park beach and taken it back under the bridge. All three went
+              under the bridge, and I saw F4 do most of the eating before F1
+              joined in, while F3 kept watch.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="date">August 20, 2025</div>
+            <div class="event-title">F1 catches sparrow at Leschi Park.</div>
+            <div class="event-summary">
+              <span class="falcon-tag">F1</span>
+              Leschi Park. F1 catches and drops a sparrow.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="date">August 23, 2025</div>
+            <div class="event-title">F1 has close call</div>
+            <div class="event-summary">
+              F1 lands on westbound I-90 for a dead pigeon.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="date">August 26, 2025</div>
+            <div class="event-title">Last Mom sighting</div>
+            <div class="event-summary">
+              Took picture of cottonwood by bike trail and later saw that i
+              captured Mom. Florence saw Mom on 23rd, my last obeservation
+              before was on 19th.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="date">August 29, 2025</div>
+            <div class="event-title">F3 at Cedar River Mouth</div>
+            <div class="event-summary">
+              <span class="falcon-tag">F3</span>
+              F3 observed at Cedar River Mouth.
+            </div>
+            <div class="detailed-summary">
+              Comments on F3's adventures today read: "made repeated dives and
+              chases on shorebirds, unsuccessful while I watched, landed briefly
+              on logs;" "Young, banded bird seen being attacking just about
+              everything in sight, including an OSPR;" and the amusingly
+              descriptive: "Immature chasing things."
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-</body>
+  </body>
 </html>
